@@ -3,6 +3,16 @@
 Nothing just a simple http client to log us in with less pain and effort.
 
 
+## Installation
+
+```bash
+    sudo wget https://github.com/ahmdrz/qiau-hotspot-login/releases/download/0.0.1/qiau-login-linux -O /usr/local/bin/qiau-hotspot-login
+    sudo chmod +x /usr/local/bin/qiau-hotspot-login
+    sudo chown $(whoami) /usr/local/bin/qiau-hotspot-login
+
+    # Do not forget to set environment variables in your .bashrc|.zshrc .
+```
+
 ## Usage
 
 Set following environment variables and run the binary.
