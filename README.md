@@ -1,4 +1,4 @@
-# Reyhoon Hotspot Login 🤦🏻‍
+# QIAU Hotspot Login 🤦🏻‍
 
 Nothing just a simple http client to log us in with less pain and effort.
 
@@ -8,9 +8,8 @@ Nothing just a simple http client to log us in with less pain and effort.
 Set following environment variables and run the binary.
 
 ```bash
-RHN_HS_IP
-RHN_HS_USERNAME
-RHN_HS_PASSWORD
+QIAU_USERNAME
+QIAU_PASSWORD
 ```
 
 ## Related projects
@@ -20,3 +19,5 @@ RHN_HS_PASSWORD
 ## Licence
 
 Whatever. 😑
+
+##### Forked from [Reyhoon Hotspot Login](https://github.com/mamal72/reyhoon-hotspot-login)

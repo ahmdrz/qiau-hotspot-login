@@ -2,36 +2,50 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"os"
+	"time"
 
 	"github.com/gen2brain/beeep"
 )
 
+const (
+	qiauLoginBaseURL = "https://net.qiau.ac.ir:8443/lanlogin"
+)
+
 var (
-	reyhoonHotspotIP               string
-	reyhoonHotspotUsername         string
-	reyhoonHotspotPassword         string
-	reyhoonHotspotLoginFormAddress string
+	qiauHotspotUsername         string
+	qiauHotspotPassword         string
+	qiauHotspotLoginFormAddress string
+
+	rnd string
 )
 
 func init() {
-	reyhoonHotspotIP = os.Getenv("RHN_HS_IP")
-	reyhoonHotspotUsername = os.Getenv("RHN_HS_USERNAME")
-	reyhoonHotspotPassword = os.Getenv("RHN_HS_PASSWORD")
-	if reyhoonHotspotIP == "" || reyhoonHotspotUsername == "" || reyhoonHotspotPassword == "" {
+	qiauHotspotUsername = os.Getenv("QIAU_USERNAME")
+	qiauHotspotPassword = os.Getenv("QIAU_PASSWORD")
+	if qiauHotspotUsername == "" || qiauHotspotPassword == "" {
 		beeep.Beep(beeep.DefaultFreq, beeep.DefaultDuration)
-		beeep.Notify("Oops!", "Please set all RHN_HS environment variables!", "")
+		beeep.Notify("Oops!", "Please set all QIAU_* environment variables!", "")
 		os.Exit(1)
 	}
-	reyhoonHotspotLoginFormAddress = fmt.Sprintf("http://%s/login", reyhoonHotspotIP)
+	rand.Seed(time.Now().UnixNano())
+	rnd = fmt.Sprintf("%d", 100000000+rand.Intn(899999999))
+	qiauHotspotLoginFormAddress = fmt.Sprintf("%s?rnd=%s", qiauLoginBaseURL, rnd)
 }
 
 func main() {
-	response, err := http.PostForm(reyhoonHotspotLoginFormAddress, url.Values{
-		"username": {reyhoonHotspotUsername},
-		"password": {reyhoonHotspotPassword},
+	response, err := http.PostForm(qiauHotspotLoginFormAddress, url.Values{
+		"username": {qiauHotspotUsername},
+		"password": {qiauHotspotPassword},
+		"rnd":      {rnd},
+		"login":    {"1"},
+		"h":        {"google.com"},
+		"m":        {"24e9b323507c"},
+		"i":        {"c0a80fe8"},
+		"u":        {"2f"},
 	})
 	if err != nil {
 		beeep.Beep(beeep.DefaultFreq, beeep.DefaultDuration)
@@ -40,5 +54,5 @@ func main() {
 	}
 	defer response.Body.Close()
 	beeep.Beep(beeep.DefaultFreq, beeep.DefaultDuration)
-	beeep.Notify("Done!", "Successfully logged in to Reyhoon hotspot!", "")
+	beeep.Notify("Done!", "Successfully logged in to QIAU hotspot!", "")
 }
